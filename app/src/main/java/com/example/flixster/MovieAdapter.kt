@@ -1,6 +1,7 @@
 package com.example.flixster
 
 import android.content.Context
+import android.content.res.Configuration
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -34,7 +35,9 @@ class MovieAdapter(private val context: Context, private val movies: List<Movie>
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
-        private val ivPoster = itemView.findViewById<ImageView>(R.id.ivBackdrop)
+
+
+        private val ivPoster = itemView.findViewById<ImageView>(R.id.ivPoster)
         private val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
         private val tvOverview = itemView.findViewById<TextView>(R.id.tvOverview)
         private val ivBackdrop = itemView.findViewById<ImageView>(R.id.ivBackdrop)
@@ -42,8 +45,14 @@ class MovieAdapter(private val context: Context, private val movies: List<Movie>
         fun bind(movie: Movie) {
             tvTitle.text = movie.title
             tvOverview.text = movie.overview
-            Glide.with(context).load(movie.posterImageUrl).into(ivPoster)
-            Glide.with(context).load(movie.backdropPathUrl).into(ivBackdrop)
+            val orientation = context.resources.configuration.orientation
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                Glide.with(context).load(movie.posterImageUrl).into(ivPoster)
+                // ...
+            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                Glide.with(context).load(movie.backdropPathUrl).into(ivBackdrop)
+                // ...
+            }
         }
     }
 
