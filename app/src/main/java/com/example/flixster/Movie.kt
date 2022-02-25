@@ -1,0 +1,30 @@
+package com.example.flixster
+
+import org.json.JSONArray
+
+//declare as data class for bundling up data
+data class Movie (
+    val movieId: Int,
+    val posterPath: String,
+    val title: String,
+    val overview: String,
+) {
+    companion object{
+        //allows us to call methods on the movie class without having an instance
+        fun fromJsonArray(movieJsonArray: JSONArray): List<Movie> {
+            val movies = mutableListOf<Movie>()
+            for (i in 0 until movieJsonArray.length())  {
+                val movieJson = movieJsonArray.getJSONObject(i)
+                movies.add(
+                    Movie(
+                        movieJson.getInt("id"),
+                        movieJson.getString("poster_path"),
+                        movieJson.getString("title"),
+                        movieJson.getString("overview")
+                    )
+                )
+            }
+            return movies
+        }
+    }
+}
