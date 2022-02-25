@@ -40,7 +40,7 @@ class MovieAdapter(private val context: Context, private val movies: List<Movie>
         private val ivPoster = itemView.findViewById<ImageView>(R.id.ivPoster)
         private val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
         private val tvOverview = itemView.findViewById<TextView>(R.id.tvOverview)
-        private val ivBackdrop = itemView.findViewById<ImageView>(R.id.ivPoster)
+        //private val ivBackdrop = itemView.findViewById<ImageView>(R.id.ivPoster)
 
         fun bind(movie: Movie) {
             tvTitle.text = movie.title
