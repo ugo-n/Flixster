@@ -13,8 +13,9 @@
         android:theme="@style/Theme.Flixster">
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="orientation|screenLayout">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
