@@ -35,8 +35,6 @@ class MovieAdapter(private val context: Context, private val movies: List<Movie>
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
-
-
         private val ivPoster = itemView.findViewById<ImageView>(R.id.ivPoster)
         private val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
         private val tvOverview = itemView.findViewById<TextView>(R.id.tvOverview)
@@ -45,14 +43,19 @@ class MovieAdapter(private val context: Context, private val movies: List<Movie>
         fun bind(movie: Movie) {
             tvTitle.text = movie.title
             tvOverview.text = movie.overview
+            Glide.with(context).load(movie.posterImageUrl).into(ivPoster)
             val orientation = context.resources.configuration.orientation
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                Glide.with(context).load(movie.posterImageUrl).into(ivPoster)
-                // ...
-            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                Glide.with(context).load(movie.backdropPathUrl).into(ivBackdrop)
-                // ...
+            if(orientation == Configuration.ORIENTATION_LANDSCAPE){
+                Glide.with(context).load(movie.backdropPathUrl).into(ivPoster)
             }
+
+        }
+
+        override fun onClick(v: View?) {
+            //1. Get notified of the particular movie which was clicked
+            val movie = movies[adapterPosition]
+            Toast.makeText(context, movie.title, Toast.LENGTH_SHORT).show()
+            //2. USe the intent system to navigate to the new activity
         }
     }
 
