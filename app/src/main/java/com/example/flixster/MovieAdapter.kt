@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.RoundedCorner
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -12,6 +13,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 const val MOVIE_EXTRA = "MOVIE_EXTRA"
 private const val TAG =  "MovieAdapter"
@@ -50,19 +53,21 @@ class MovieAdapter(private val context: Context, private val movies: List<Movie>
         fun bind(movie: Movie) {
             tvTitle.text = movie.title
             tvOverview.text = movie.overview
-            Glide.with(context).load(movie.posterImageUrl).into(ivPoster)
+            val radius = 30 // corner radius, higher value = more rounded
+            val margin = 0 // crop margin, set to 0 for corners with no crop
+
+            Glide.with(context).load(movie.posterImageUrl).fitCenter().transform(RoundedCorners(radius)).into(ivPoster)
             val orientation = context.resources.configuration.orientation
             if(orientation == Configuration.ORIENTATION_LANDSCAPE){
-                Glide.with(context).load(movie.backdropPathUrl).into(ivPoster)
+                Glide.with(context).load(movie.backdropPathUrl).fitCenter().transform(RoundedCorners(radius)).into(ivPoster)
             }
-
         }
 
         override fun onClick(v: View?) {
             //1. Get notified of the particular movie which was clicked
             val movie = movies[adapterPosition]
             Toast.makeText(context, movie.title, Toast.LENGTH_SHORT).show()
-            //2. USe the intent system to navigate to the new activity
+            //2. Use the intent system to navigate to the new activity
             val intent = Intent(context, DetailActivity::class.java)
             intent.putExtra(MOVIE_EXTRA, movie)
             context.startActivity(intent)
